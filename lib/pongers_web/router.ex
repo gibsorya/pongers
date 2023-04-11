@@ -20,6 +20,11 @@ defmodule PongersWeb.Router do
     get "/", PageController, :home
   end
 
+  scope "/app", PongersWeb do
+    get "/", WebappController, :index
+    get "/*path", WebappController, :index
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", PongersWeb do
   #   pipe_through :api

@@ -1,9 +1,20 @@
-import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vitest/config';
+import { defineConfig } from 'vite'
+import { svelte } from '@sveltejs/vite-plugin-svelte'
 
+// https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [sveltekit()],
-	test: {
-		include: ['src/**/*.{test,spec}.{js,ts}']
-	}
-});
+  plugins: [svelte()],
+
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:4000",
+        secure: false,
+        ws: true,
+      }
+    }
+  },
+  
+  // @ts-ignore
+  base: process.env.NODE_ENV === "production" ? "/webapp/" : "/",
+})
