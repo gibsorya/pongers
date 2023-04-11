@@ -23,7 +23,7 @@
     <Counter />
   </div> -->
 
-  <Router>
+  <Router basepath='/app'>
     <nav>
       <Link to='/'>Home</Link>
       <Link to='/about'>About</Link>
@@ -37,6 +37,12 @@
       </Route>
     </div>
   </Router>
+
+  <script>
+    import { useNavigate } from "svelte-navigator";
+  
+    const navigate = useNavigate();
+  </script>
 
   <p>
     Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
