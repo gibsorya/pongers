@@ -20,6 +20,12 @@ defmodule PongersWeb.Router do
     get "/", PageController, :home
   end
 
+  scope "/api", PongersWeb do
+    pipe_through :api
+
+    resources "/players", PlayerController, except: [:new, :edit]
+  end
+
   scope "/app", PongersWeb do
     get "/", WebappController, :index
     get "/*path", WebappController, :index
