@@ -24,6 +24,7 @@ defmodule PongersWeb.Router do
     pipe_through :api
 
     resources "/players", PlayerController, except: [:new, :edit]
+    resources "/matches", MatchController, except: [:new, :edit]
   end
 
   scope "/app", PongersWeb do
