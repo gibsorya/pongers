@@ -5,6 +5,7 @@ defmodule Pongers.Accounts.Player do
   schema "players" do
     field :name, :string
     field :stats, :map
+    many_to_many :matches, Pongers.Events.Match, join_through: "players_matches"
 
     timestamps()
   end
