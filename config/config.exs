@@ -14,6 +14,7 @@ config :pongers,
 config :pongers, PongersWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [
+    accepts: ~w(html json),
     formats: [html: PongersWeb.ErrorHTML, json: PongersWeb.ErrorJSON],
     layout: false
   ],

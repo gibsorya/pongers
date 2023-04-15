@@ -10,6 +10,10 @@ defmodule PongersWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :authorize do
+    plug Pongers.Auth.Authorize
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -21,10 +25,17 @@ defmodule PongersWeb.Router do
   end
 
   scope "/api", PongersWeb do
-    pipe_through :api
+    pipe_through [:api]
 
-    resources "/players", PlayerController, except: [:new, :edit]
-    resources "/matches", MatchController, except: [:new, :edit]
+    resources "/players", PlayerController, only: [:index, :show]
+    resources "/matches", MatchController, only: [:index, :show]
+  end
+
+  scope "/api", PongersWeb do
+    pipe_through [:api, :authorize]
+
+    resources "/players", PlayerController, only: [:create, :update, :delete, :new, :edit]
+    resources "/matches", MatchController, only: [:create, :update, :delete, :new, :edit]
   end
 
   scope "/app", PongersWeb do

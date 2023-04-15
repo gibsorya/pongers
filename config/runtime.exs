@@ -1,5 +1,9 @@
 import Config
 
+if config_env() == :dev do
+  DotenvParser.load_file(".env")
+end
+
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
 # system starts, so it is typically used to load production configuration
@@ -19,6 +23,21 @@ import Config
 if System.get_env("PHX_SERVER") do
   config :pongers, PongersWeb.Endpoint, server: true
 end
+
+config :cors_plug,
+  origin:
+    System.get_env("CLIENT_ORIGIN_URL") ||
+      raise("""
+      The required environment variable CLIENT_ORIGIN_URL is missing. Check .env file.
+      """)
+
+config :pongers,
+  auth0_domain:
+    System.get_env("AUTH0_DOMAIN") ||
+      raise("The required environment variable AUTH0_DOMAIN is missing. Check .env file."),
+  auth0_audience:
+    System.get_env("AUTH0_AUDIENCE") ||
+      raise("The required environment variable AUTH0_AUDIENCE is missing. Check .env file.")
 
 if config_env() == :prod do
   database_url =
