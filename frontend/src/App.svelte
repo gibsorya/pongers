@@ -4,6 +4,7 @@
   import viteLogo from '/vite.svg'
   import Counter from './lib/Counter.svelte'
   import About from "./lib/About.svelte";
+  import PlayerForm from "./lib/components/PlayerForm.svelte";
 </script>
 
 
@@ -27,6 +28,7 @@
     <nav>
       <Link to='/'>Home</Link>
       <Link to='/about'>About</Link>
+      <Link to='/users'>Users</Link>
     </nav>
     <div>
       <Route path="/">
@@ -35,12 +37,20 @@
       <Route path="/about">
         <About />
       </Route>
+      <Route path="/users">
+        <h1>Users</h1>
+        <Link to='/users/new'>New User</Link>
+      </Route>
+      <Route path="/users/new">
+        <h1>New User</h1>
+        <PlayerForm />
+      </Route>
     </div>
   </Router>
 
   <script>
     import { useNavigate } from "svelte-navigator";
-  
+
     const navigate = useNavigate();
   </script>
 

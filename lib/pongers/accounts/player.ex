@@ -14,6 +14,6 @@ defmodule Pongers.Accounts.Player do
   def changeset(player, attrs) do
     player
     |> cast(attrs, [:name, :stats])
-    |> validate_required([:name, :stats])
+    |> validate_required([:name])
   end
 end

@@ -17,9 +17,10 @@ defmodule Pongers.Application do
       # Start Finch
       {Finch, name: Pongers.Finch},
       # Start the Endpoint (http/https)
-      PongersWeb.Endpoint
+      PongersWeb.Endpoint,
       # Start a worker by calling: Pongers.Worker.start_link(arg)
       # {Pongers.Worker, arg}
+      Pongers.Auth.Auth0Strategy
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

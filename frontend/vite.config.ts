@@ -14,6 +14,8 @@ export default defineConfig({
       }
     }
   },
+
+  optimizeDeps: { exclude: ["svelte-navigator"] },
   
   // @ts-ignore
   base: process.env.NODE_ENV === "production" ? "/webapp/" : "/",
