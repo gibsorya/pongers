@@ -1,6 +1,6 @@
 <script lang="ts">
   import axios from 'axios';
-  import { users } from '../stores';
+  import { users } from '../lib/stores';
     
   let name: string = ''
 
@@ -9,9 +9,10 @@
     const user: IUser = { name, stats: null }
     axios.post('/api/players', {"player": user}, {
       headers: {
-        'authorization': `Bearer ${import.meta.env.VITE_AUTH0_AUTH_TOKEN}`
+        "authorization": `Bearer ${import.meta.env.VITE_AUTH0_AUTH_TOKEN}`
       }
     }).then((response) => {
+      console.log(response)
       users.update((users) => [...users, user])
     }).catch((error) => {
       console.error(error)
@@ -21,7 +22,7 @@
   }
 </script>
 
-<!-- Path: frontend/src/lib/components/PlayerForm.svelte -->
+<!-- Path: frontend/src/components/PlayerForm.svelte -->
 <form on:submit|preventDefault={handleSubmit} id='newPlayerForm'>
   <input type="text" bind:value={name} />
   <button type="submit">Add Player</button>
