@@ -15,8 +15,17 @@ export const getPlayers = async (): Promise<any> => {
 export const deletePlayer = async (id: number): Promise<any> => {
   try {
     const token = await getAccessToken();
-    console.log(token)
     const response = await API.delete(`/players/${id}`, null, { headers: { 'authorization': `Bearer ${token}` } });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export const createPlayer = async (user: IUser): Promise<any> => {
+  try {
+    const token = await getAccessToken();
+    const response = await API.post("/players", { player: user }, { headers: { 'authorization': `Bearer ${token}` } });
     return response.data;
   } catch (err) {
     throw err;

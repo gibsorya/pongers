@@ -25,8 +25,6 @@
 
   const handleLogin = async() => {
     await login();
-
-    console.log($isAuthenticated)
   }
 
   const handleLogout = async() => {
@@ -43,7 +41,7 @@
   });
 </script>
 
-<main>
+<main class="container mx-auto">
   <div>
     <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
       <img src={viteLogo} class="logo" alt="Vite Logo" />
