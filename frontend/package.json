@@ -23,6 +23,7 @@
     "vite": "^4.2.0"
   },
   "dependencies": {
+    "@auth0/auth0-spa-js": "^2.0.4",
     "dotenv": "^16.0.3",
     "svelte-navigator": "^3.2.2",
     "vite-plugin-env-compatible": "^1.1.1"

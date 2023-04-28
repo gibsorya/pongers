@@ -1,13 +1,47 @@
 <script>
-  import { Router, Route, Link } from "svelte-navigator"
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
-  import About from "./lib/About.svelte";
-  import PlayerForm from "./lib/components/PlayerForm.svelte";
+  import { Router, Route, Link, useLocation } from "svelte-navigator";
+  import svelteLogo from "./assets/svelte.svg";
+  import viteLogo from "/vite.svg";
+  import Counter from "./components/Counter.svelte";
+  import About from "./pages/About.svelte";
+  import PlayerForm from "./components/PlayerForm.svelte";
+  import PlayerTable from "./components/PlayerTable.svelte";
+  import { auth0 } from "./lib/services/auth0";
+  import { onMount } from "svelte";
+  import Callback from "./pages/Callback.svelte";
+    import PrivateRoute from "./components/auth/PrivateRoute.svelte";
+
+  let { isLoading, isAuthenticated, login, initializeAuth0, logout } = auth0;
+
+  const onRedirectCallback = (appState) => {
+    window.history.replaceState(
+      {},
+      document.title,
+      appState && appState.targetUrl
+        ? appState.targetUrl
+        : window.location.pathname
+    );
+  };
+
+  const handleLogin = async() => {
+    await login();
+
+    console.log($isAuthenticated)
+  }
+
+  const handleLogout = async() => {
+    await logout();
+  }
+
+  onMount(async () => {
+    await initializeAuth0({
+      domain: import.meta.env.VITE_AUTH0_DOMAIN,
+      clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
+      redirectUri: import.meta.env.VITE_AUTH0_CALLBACK_URL,
+      audience: import.meta.env.VITE_AUTH0_AUDIENCE || undefined,
+    });
+  });
 </script>
-
-
 
 <main>
   <div>
@@ -19,48 +53,50 @@
     </a>
   </div>
   <h1>Vite + Svelte</h1>
+  {#if $isAuthenticated}
+    <button id="logout" on:click|preventDefault={handleLogout}>Click to Logout</button>
+  {:else}
+    <button id="login" on:click|preventDefault={handleLogin}>Click to Login</button>
+  {/if}
 
   <!-- <div class="card">
     <Counter />
   </div> -->
 
-  <Router basepath='/app'>
+  <Router>
     <nav>
-      <Link to='/'>Home</Link>
-      <Link to='/about'>About</Link>
-      <Link to='/users'>Users</Link>
+      <Link to="/">Home</Link>
+      <Link to="/about">About</Link>
+      <Link to="/users">Users</Link>
     </nav>
     <div>
       <Route path="/">
-        <Counter />
+        <PlayerTable />
       </Route>
       <Route path="/about">
         <About />
       </Route>
       <Route path="/users">
         <h1>Users</h1>
-        <Link to='/users/new'>New User</Link>
+        <Link to="/users/new">New User</Link>
       </Route>
-      <Route path="/users/new">
+      <PrivateRoute path="/users/new">
         <h1>New User</h1>
         <PlayerForm />
-      </Route>
+      </PrivateRoute>
+      <Route path="/callback" component={Callback} />
     </div>
   </Router>
 
-  <script>
-    import { useNavigate } from "svelte-navigator";
-
-    const navigate = useNavigate();
-  </script>
-
   <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
+    Check out <a
+      href="https://github.com/sveltejs/kit#readme"
+      target="_blank"
+      rel="noreferrer">SvelteKit</a
+    >, the official Svelte app framework powered by Vite!
   </p>
 
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
+  <p class="read-the-docs">Click on the Vite and Svelte logos to learn more</p>
 </main>
 
 <style>
