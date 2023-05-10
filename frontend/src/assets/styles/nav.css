@@ -1,0 +1,23 @@
+@import 'variables.css';
+
+.nav {
+  background-color: var(--gunmetal)
+}
+
+.nav a {
+  color: var(--ivory);
+  padding: 14px 16px;
+}
+
+.nav a:hover {
+  color: var(--persian-red)
+}
+
+.nav button {
+  color: var(--gunmetal);
+}
+
+#logout:hover {
+  background-color: var(--persian-red);
+  color: var(--ivory);
+}
