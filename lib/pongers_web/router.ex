@@ -14,6 +14,10 @@ defmodule PongersWeb.Router do
     plug Pongers.Auth.Authorize
   end
 
+  pipeline :validate_permissions do
+    plug Pongers.Auth.ValidatePermissions, Pongers.Auth.Permissions.create_player()
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -32,7 +36,7 @@ defmodule PongersWeb.Router do
   end
 
   scope "/api", PongersWeb do
-    pipe_through [:api, :authorize]
+    pipe_through [:api, :authorize, :validate_permissions]
 
     resources "/players", PlayerController, only: [:create, :update, :delete, :new, :edit]
     resources "/matches", MatchController, only: [:create, :update, :delete, :new, :edit]

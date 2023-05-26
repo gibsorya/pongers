@@ -13,6 +13,14 @@ defmodule PongersWeb.ErrorJSON do
     %{errors: %{detail: "Unauthorized", reason: error}}
   end
 
+  def render("403.json", _assigns) do
+    %{
+      error: "insufficient_permissions",
+      error_description: "Insufficient claim for the token",
+      message: "Permission denied"
+    }
+  end
+
   def render(template, _assigns) do
     %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
   end

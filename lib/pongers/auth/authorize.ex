@@ -18,8 +18,9 @@ defmodule Pongers.Auth.Authorize do
   @spec call(Plug.Conn.t(), any) :: Plug.Conn.t()
   def call(conn, _default) do
     with {:ok, token} when is_binary(token) <- get_token(conn),
-         {:ok, _claims} <- Token.verify_and_validate(token) do
-      conn
+         {:ok, claims} <- Token.verify_and_validate(token) do
+          conn = assign(conn, :claims, claims)
+          conn
     else
       {:error, error} -> handle_error_response(conn, error)
     end
